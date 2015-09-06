@@ -1,6 +1,6 @@
 {
   "name": "serialization-police",
-  "productName": "Checks serialization-related properties, e.g. serialVersionUID.",
+  "productName": "serialization-police.",
   "version": "0.1.0",
   "author": "Nitin Mukesh Tiwari <nmtiwari@iastate.edu>",
   "description": "Show the number of violations to serialization property.",
@@ -11,6 +11,6 @@
   },
   "icon": {
 	"type": "fa",
-	"name": "pi-chart"
+	"name": "fa-pie-chart "
   }
 }
