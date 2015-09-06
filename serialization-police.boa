@@ -1,0 +1,51 @@
+# serialVersionUID field should be static long final.
+p: Project = input;
+#out : output collection[string] of int;
+out : output sum[string] of int;
+#count : output sum of int;
+#serialVersionUID := `^serialVersionUID$`;
+file := "";
+isStatic := false;
+isFinal := false;
+isLong := false; 
+counts := 0;
+
+visit(p, visitor {
+    # only look at the latest snapshot
+	before n: CodeRepository -> {
+		snapshot := getsnapshot(n);
+		foreach (i: int; def(snapshot[i]))
+			visit(snapshot[i]);
+		stop;
+	}
+    
+    #before chfl: ChangedFile -> file = chfl.name;
+    #after chfl: ChangedFile -> file = "";
+    
+    before decl : Declaration -> {
+        isStatic = false;
+        isFinal = false;
+        isLong = false;
+        
+        foreach(i: int; def(decl.fields[i])) {
+            var := decl.fields[i];
+            if (var.name == "serialVersionUID") {
+                #out[p.project_url] << file;
+                modifiers := var.modifiers;
+                if (var.variable_type.name == "long")
+                    isLong = true;
+                foreach(j: int; def(modifiers[j])) {
+                    modifier := modifiers[j];
+                    if (modifier.kind == ModifierKind.STATIC)
+                        isStatic = true;
+                    if (modifier.kind == ModifierKind.FINAL)
+                        isFinal = true;
+                }
+                if (!isStatic || !isLong || !isFinal)
+                    counts++;
+            }
+        }
+    }
+});
+#if (counts > 0)
+    out[p.project_url] << counts;

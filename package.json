@@ -1,0 +1,16 @@
+{
+  "name": "serialization-police",
+  "productName": "Checks serialization-related properties, e.g. serialVersionUID.",
+  "version": "0.1.0",
+  "author": "Nitin Mukesh Tiwari <nmtiwari@iastate.edu>",
+  "description": "Show the number of violations to serialization property.",
+  "main": "main.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/candoia/serialization-police"
+  },
+  "icon": {
+	"type": "fa",
+	"name": "pi-chart"
+  }
+}
